@@ -1,0 +1,172 @@
+                  TRAJECTORY DATA LICENSE AGREEMENT
+
+This data license agreement (the "Agreement") is between D. E. Shaw Research,
+LLC ("DESRES") and Licensee (as defined below), effective as of the date
+Licensee fills out and submits the registration form to obtain molecular
+dynamics trajectories on DESRES's website (the "Effective Date").  DESRES and
+the Licensee agree as follows:
+
+1. License Grant. Subject to the terms and conditions of this Agreement, DESRES
+hereby grants to Licensee (as defined below) a limited, royalty-free license,
+on a non-exclusive, non-transferable, non-assignable, and non-sublicensable
+basis, to install and use for Non-Commercial Research (as defined below)
+certain DESRES molecular dynamics trajectories that may, from time to time, be
+requested by Licensee and any associated documentation that may be provided
+with such trajectories.  As used herein, "Licensee" means the individual
+accepting this Agreement or, if the individual accepts this Agreement on
+behalf of an organization, such organization.  The specific trajectory
+data and associated documentation downloaded by Licensee or otherwise
+provided to Licensee hereunder are collectively referred to herein as the
+"Datasets."  The Datasets will be accessed, held, or otherwise used by
+Licensee only in accordance with the terms of this Agreement. Use of the
+Datasets is restricted to Non-Commercial Research conducted by Licensee and,
+if Licensee is an organization, Licensee's employees, research advisees,
+and students ("Authorized Users"). Licensee shall require its Authorized
+Users to abide by the obligations of this Agreement and will be responsible
+for use of the Datasets by its Authorized Users.  Any third party (including,
+without limitation, any collaborators of Licensee) wishing to install or use
+the Datasets may do so only if such party has executed a separate license
+agreement with DESRES granting such party the right to do so.  As used herein,
+"Non-Commercial Research" means any academic or other research by a non-profit
+or a not-for-profit organization that (x) is not undertaken in exchange for a
+fee or for profit, and (y) is not intended or undertaken to produce, and will
+not produce, results, works, services, or data for commercial use by Licensee
+or any third party. For the avoidance of doubt, use of the Datasets in any
+contract research services or research sponsored or funded by a for-profit
+or commercial entity is not permitted under this Agreement. If Licensee uses
+the Datasets in a manner not permitted by this Agreement, all rights and
+licenses granted hereunder shall terminate immediately with or without any
+notice by DESRES.  If Licensee wishes to continue using the Datasets after
+any such termination, Licensee must apply for a new license to the Datasets,
+the approval of which shall be at DESRES's sole discretion.  Nothing in this
+Agreement shall be construed as granting any rights or licenses to DESRES's
+intellectual property rights, whether by implication or otherwise, other than
+the right to use the Datasets in the manner and to the extent authorized by
+this Agreement. DESRES reserves all rights not expressly granted herein.
+
+2. Restrictions.  Licensee may make copies of the Datasets only as necessary
+for its Non-Commercial Research use in accordance with this Agreement,
+and for bona fide backup or archival purposes. Licensee shall not:
+  (a) modify, translate, or adapt the Datasets (in each case other than
+  to generate reports or publications of results obtained with the Datasets);
+  (b) rent, lease, loan, sell, transfer, publish, display, or distribute
+  the Datasets;
+  (c) make the Datasets available to third parties, use the Datasets,
+  or any portion thereof, in a service bureau, time-sharing, or outsourcing
+  service, or otherwise use the Datasets for the benefit of third parties;
+  (d) remove or alter any proprietary rights notices on the Datasets;
+  (e) export, import, or re-export the Datasets in violation of any
+  applicable law, rule, or regulation of any jurisdiction; or
+  (f) disclose or use, without DESRES's prior written approval, the Datasets,
+  whether in whole or in part, other than as expressly authorized hereunder.
+Licensee shall notify DESRES immediately of any actual or imminent unauthorized
+access to, or use or disclosure of, the Datasets.  Licensee recognizes that
+the unauthorized use or disclosure of any of the foregoing will give rise to
+irreparable injury to DESRES, its affiliates, and/or its licensors for which
+monetary damages may be an inadequate remedy, and Licensee agrees that DESRES,
+its affiliates, and/or its licensors may seek and obtain injunctive relief
+against the breach or threatened breach of Licensee's obligations hereunder,
+in addition to any other legal and equitable remedies which may be available.
+
+3. Representations and Warranties.  Licensee hereby represents and warrants
+that:
+  (a) Licensee has the necessary authority to enter into this Agreement and
+  if Licensee is an organization, the individual signing this Agreement is
+  authorized to enter into this Agreement on behalf of the Licensee;
+  (b) all information that Licensee has provided or will hereafter provide
+  in connection with this Agreement is and will be correct and complete;
+  (c) Licensee will use the Datasets only for Non-Commercial Research; and
+  (d) Licensee will abide by, and will (if Licensee is an organization)
+  ensure that all of its Authorized Users abide by, the terms and conditions
+  set forth in this Agreement.
+
+4. Acknowledgement and Citation.  Licensee agrees to acknowledge the use of
+any Datasets in any reports or publications of results obtained using the
+Datasets by including the citation language contained in the "README.txt"
+file that is included in the distribution of the applicable Datasets.
+
+5. Delivery.  In certain circumstances, Licensee will be able to download the
+Datasets from a website made available by DESRES.  In other circumstances,
+DESRES may elect instead to deliver the Datasets to Licensee on physical
+storage media (e.g., a hard drive or a flash drive) provided by DESRES or
+Licensee, ("Storage Media"), as determined by DESRES in its sole discretion.
+
+6. Fees.  The license to the Datasets granted by this Agreement is granted
+free of charge.  However, Licensee may be charged fees with respect to
+the delivery of any Datasets in order to defray the cost of Storage Media,
+shipping, and other expenses incurred in connection with the preparation and
+delivery of the Datasets to Licensee.  DESRES will separately communicate the
+applicable fees to Licensee prior to delivery of the Datasets. Licensee agrees
+to pay any such fees within 30 days of receipt of the Datasets.  In addition,
+Licensee will be responsible for any taxes, customs duties, or other charges
+incurred in connection with receipt and use by Licensee of the Datasets or
+Storage Media.
+
+7. Disclaimer of Warranties and Liabilities.  Licensee acknowledges that
+the Datasets are a research tool.  The Datasets, any website made available
+by DESRES, and any Storage Media are provided on an "as is" basis. For the
+avoidance of doubt, DESRES and its licensors shall have no maintenance,
+upgrade, availability, or support obligations with respect to the Datasets,
+any website made available by DESRES, or any Storage Media.  DESRES, ITS
+AFFILIATES, ITS LICENSORS, AND ITS SUPPLIERS DISCLAIM ALL WARRANTIES,
+REPRESENTATIONS, OR GUARANTEES, EXPRESS OR IMPLIED, INCLUDING WITHOUT
+LIMITATION ANY WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+PURPOSE, TITLE, AND NON-INFRINGEMENT, AND ANY WARRANTIES THAT THE DATASETS,
+ANY WEBSITE MADE AVAILABLE BY DESRES, OR ANY STORAGE MEDIA WILL BE ACCURATE
+OR ERROR-FREE OR MEET LICENSEE'S PARTICULAR REQUIREMENTS. LICENSEE AGREES
+THAT DESRES, ITS AFFILIATES, ITS LICENSORS, AND ITS SUPPLIERS SHALL NOT BE
+HELD LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, EXEMPLARY,
+PUNITIVE, OR INCIDENTAL DAMAGES WITH RESPECT TO ANY CLAIM BY LICENSEE OR
+ANY THIRD PARTY ARISING OUT OF OR RELATING TO THIS AGREEMENT, USE OF THE
+DATASETS, RESULTS OBTAINED USING THE DATASETS, OR ANY DERIVATIVE WORK BASED
+ON THE DATASETS, ANY WEBSITE MADE AVAILABLE BY DESRES, OR ANY STORAGE MEDIA.
+
+8. Ownership Rights.  Licensee acknowledges that the Datasets, and any
+intellectual property and proprietary rights inherent therein or appurtenant
+thereto (including without limitation all rights to patents, copyrights,
+trademarks, and trade secrets), in all media now known or hereinafter
+developed, are the sole and exclusive property of, and are valuable,
+confidential, and proprietary to, DESRES and its licensors, and Licensee shall
+protect the foregoing using the same level of care that it uses to protect
+its own proprietary information, but using no less than a reasonable standard
+of care. Licensee is not purchasing title to the Datasets or copies thereof,
+but rather is being granted only a limited license to use the Datasets only
+in accordance with this Agreement.  Except in compliance with the citation
+requirements of Section 4, Licensee shall not use DESRES or its affiliates
+or licensors' names or marks or employee names, or adaptations thereof, in
+any advertising, promotional, sales, or other materials without the prior
+written consent of DESRES or, if and as applicable, of DESRES's affiliates
+or licensors.  Licensee shall inform DESRES promptly in writing of any
+actual or alleged infringement of DESRES or its licensors' rights and of
+any available evidence thereof.
+
+9. Term and Termination.  Licensee's license with respect to the Datasets
+shall commence upon the Effective Date and shall be perpetual, subject to
+the termination provisions of this section.  Any and all rights granted to
+Licensee hereunder shall terminate immediately upon Licensee's breach of, or
+non-compliance with, any provisions of this Agreement, or upon termination of
+this Agreement.  DESRES may terminate this Agreement and the license granted
+hereunder by providing written notice of termination to Licensee in its
+sole discretion.  In the event of any termination of this Agreement for any
+reason, Licensee shall discontinue all use of the Datasets and shall either
+(a) promptly return all copies of the Datasets to DESRES, or (b) subject
+to DESRES's prior written consent (email sufficient), provide DESRES with a
+certificate of destruction of all copies of the Datasets. Notwithstanding the
+foregoing, only Section 1 of this Agreement shall not survive the termination
+of this Agreement.
+
+10. General.  This Agreement and its enforcement shall be governed by, and
+construed in accordance with, the laws of the State of New York, without
+regard to conflicts-of-law principles that would require application of the
+law of another jurisdiction.  The exclusive venue for any action relating to
+this Agreement shall be the state and federal courts situated in the State
+of New York, County of New York, and each party expressly consents to the
+jurisdiction of such courts. This Agreement constitutes the entire agreement
+between the parties and supersedes all prior agreements, written or oral,
+relating to the subject matter hereof. This Agreement may not be modified or
+altered except by written instrument duly executed by both parties.  If any
+provision of this Agreement is deemed to be unenforceable, that provision
+shall be enforced to the maximum extent permitted to effect the parties'
+intentions hereunder, and the remainder of this Agreement shall continue in
+full force and effect. The failure of either party to exercise any right
+provided for herein shall not be deemed a waiver of any right hereunder.
