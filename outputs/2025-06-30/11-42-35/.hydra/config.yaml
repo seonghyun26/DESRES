@@ -1,0 +1,6 @@
+id: 1fme
+simulation_id: 0
+feature:
+- alpha carbon distance
+lag: 600
+tica_dim: 2

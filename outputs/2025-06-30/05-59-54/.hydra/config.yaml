@@ -1,0 +1,5 @@
+id: CLN025
+simulation_id: 0
+feature:
+- carbron atom distance
+- dihedral angle

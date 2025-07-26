@@ -1,0 +1,4 @@
+molecule: CLN025
+feature:
+- carbron atom distance
+- dihedral angle
