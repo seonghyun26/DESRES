@@ -1,0 +1,18 @@
+# Configuration for TAE (Time-lagged Auto-encoder) baseline - CLN025
+method: tica
+molecule: CLN025
+dataset_size: 50k
+timelag: 10
+
+# TAE specific parameters
+n_cvs: 1
+activation: tanh
+layers: [45, 100, 100, 1]
+
+# Training parameters
+max_epochs: 1000
+early_stopping_min_delta: 0.01
+early_stopping_patience: 50
+
+# Model save directory
+model_save_dir: /home/shpark/prj-mlcv/lib/bioemu/model

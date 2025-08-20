@@ -18,5 +18,9 @@
 *download*
 
 *lightning_logs*
+*wandb*
 *simulations/*
 *DESRES-Trajectory*
+*checkpoint*
+*.ckpt
+*outputs*

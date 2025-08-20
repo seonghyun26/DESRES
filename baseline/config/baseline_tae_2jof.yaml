@@ -1,0 +1,23 @@
+# Configuration for TAE (Time-lagged Auto-encoder) baseline
+method: tae
+molecule: 2JOF
+dataset_size: 50k
+timelag: 10
+
+# TAE specific parameters
+mlcv_dim: 1
+hidden_layers: [100, 100]
+activation: tanh
+dropout: [0.5, 0.5, 0.5]
+
+# Training parameters
+max_epochs: 1000
+early_stopping_min_delta: 0.01
+early_stopping_patience: 50
+
+# Model save directory
+model_save_dir: /home/shpark/prj-mlcv/lib/bioemu/model
+
+# Molecule specific parameters
+# For CLN025: input_dim=45
+# For 2JOF: input_dim=190
