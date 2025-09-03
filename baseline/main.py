@@ -6,6 +6,20 @@ import pickle
 import torch
 import lightning as pl
 import matplotlib.pyplot as plt
+import mdtraj as md
+import pyemma
+import nglview as nv
+import plotly.graph_objects as go
+from tqdm import tqdm
+from matplotlib.colors import LogNorm
+from itertools import combinations
+import mdtraj as md
+import pyemma
+import nglview as nv
+import plotly.graph_objects as go
+from tqdm import tqdm
+from matplotlib.colors import LogNorm
+from itertools import combinations
 
 from pathlib import Path
 from torch.optim import Adam
@@ -26,6 +40,10 @@ from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 
 # Ensure numpy compatibility
 np.bool = np.bool_
+
+# Color constants for visualization
+blue = (70 / 255, 110 / 255, 250 / 255)
+green = (100 / 255, 170 / 255, 120 / 255)
 
 
 def sanitize_range(range_tensor: torch.Tensor) -> torch.Tensor:
@@ -291,7 +309,7 @@ def evaluate_model(cfg: DictConfig, model, input_dim: int):
     timelag = cfg.get('timelag', 10)
     
     # Load projection data
-    projection_data_path = f"/home/shpark/prj-mlcv/lib/DESRES/dataset/{molecule}-all/cad.pt"
+    projection_data_path = f"/home/shpark/prj-mlcv/lib/DESRES/DESRES-Trajectory_{molecule}-0-protein/{molecule}-0-cad.pt"
     projection_data = torch.load(projection_data_path)
 
     model.eval()

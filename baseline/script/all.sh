@@ -1,9 +1,24 @@
 cd ../
 
-# CLN025
+molecule=${1:-"1fme"}
+CUDA_VISIBLE_DEVICES=$1 python main.py \
+    --config-name baseline_tica_1fme
+
+# CUDA_VISIBLE_DEVICES=$1 python main.py \
+#     --config-name baseline_tda_1fme
 
 CUDA_VISIBLE_DEVICES=$1 python main.py \
-    --config-name baseline_tda_cln025
+    --config-name baseline_tae_1fme
+
+CUDA_VISIBLE_DEVICES=$1 python main.py \
+    --config-name baseline_vde_1fme
+
+
+
+# CLN025
+
+# CUDA_VISIBLE_DEVICES=$1 python main.py \
+    # --config-name baseline_tda_cln025
 
 # CUDA_VISIBLE_DEVICES=$1 python main.py \
 #     --config-name baseline_tica_cln025
@@ -27,3 +42,4 @@ CUDA_VISIBLE_DEVICES=$1 python main.py \
 
 # CUDA_VISIBLE_DEVICES=$1 python main.py \
 #     --config-name baseline_tae_2jof
+

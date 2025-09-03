@@ -1,0 +1,19 @@
+# Configuration for TAE (Time-lagged Auto-encoder) baseline - CLN025
+method: tica
+molecule: 1FME
+dataset_size: 50k
+timelag: 10
+input_dim: 378
+
+# TAE specific parameters
+n_cvs: 1
+activation: tanh
+layers: [378, 100, 100, 1]
+
+# Training parameters
+max_epochs: 1000
+early_stopping_min_delta: 0.01
+early_stopping_patience: 50
+
+# Plot
+switch: False

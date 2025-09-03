@@ -7,6 +7,9 @@ import re
 from pathlib import Path
 from typing import List, Tuple, Dict
 
+molecule = "2F4K"
+# molecule = "GTT"
+
 
 def parse_pdb_atoms(pdb_file: Path) -> List[Tuple[int, str, str, str, int, float, float, float]]:
     """
@@ -31,6 +34,82 @@ def parse_pdb_atoms(pdb_file: Path) -> List[Tuple[int, str, str, str, int, float
                 atoms.append((atom_number, atom_name, residue_name, chain, residue_number, x, y, z))
     
     return atoms
+
+
+def parse_pdb_atoms_with_lines(pdb_file: Path) -> Tuple[List[Tuple[int, str, str, str, int, float, float, float]], List[str]]:
+    """
+    Parse PDB file and extract atom information along with original ATOM/HETATM lines.
+    Returns tuple of (atoms, lines) where atoms is the same structure as parse_pdb_atoms
+    and lines contains the original PDB lines for ATOM/HETATM records in the same order.
+    """
+    atoms: List[Tuple[int, str, str, str, int, float, float, float]] = []
+    lines: List[str] = []
+
+    with open(pdb_file, 'r') as f:
+        for line in f:
+            if line.startswith('ATOM') or line.startswith('HETATM'):
+                atom_number = int(line[6:11].strip())
+                atom_name = line[12:16].strip()
+                residue_name = line[17:20].strip()
+                chain = line[21:22].strip()
+                residue_number = int(line[22:26].strip())
+                x = float(line[30:38].strip())
+                y = float(line[38:46].strip())
+                z = float(line[46:54].strip())
+
+                atoms.append((atom_number, atom_name, residue_name, chain, residue_number, x, y, z))
+                lines.append(line.rstrip('\n'))
+
+    return atoms, lines
+
+
+def _rewrite_serial_number(pdb_line: str, new_serial: int) -> str:
+    """Rewrite the atom serial number (columns 7-11) while preserving the rest of the line."""
+    # PDB is 1-based fixed width, columns 7-11 are indices 6:11 (0-based slicing)
+    prefix = pdb_line[:6]
+    suffix = pdb_line[11:]
+    return f"{prefix}{new_serial:>5}{suffix}"
+
+
+def write_reordered_pdb_from_mapping(
+    maestro_lines: List[str],
+    mapping: List[int],
+    pymol_atoms: List[Tuple[int, str, str, str, int, float, float, float]],
+    output_path: Path,
+) -> None:
+    """
+    Create a new PDB by reordering Maestro ATOM/HETATM lines to match PyMOL atom ordering.
+    - mapping[i] gives PyMOL index (1-based) for Maestro atom i (0-based index i).
+    - For each PyMOL index from 1..len(pymol_atoms), write the corresponding Maestro line
+      if present in mapping; skip indices without a match (with a warning).
+    - Renumber atom serials sequentially starting from 1 in the output.
+    """
+    # Invert mapping: pymol_index (1-based) -> maestro_index (0-based)
+    inverse: Dict[int, int] = {}
+    for maestro_idx, pymol_idx in enumerate(mapping):
+        if pymol_idx != -1:
+            # Only keep first occurrence if duplicates occur
+            if pymol_idx not in inverse:
+                inverse[pymol_idx] = maestro_idx
+
+    output_lines: List[str] = []
+    new_serial = 1
+    total = len(pymol_atoms)
+    for pymol_index in range(1, total + 1):
+        maestro_idx = inverse.get(pymol_index, None)
+        if maestro_idx is None:
+            print(f"Warning: No Maestro atom corresponds to PyMOL index {pymol_index}; skipping.")
+            continue
+        original_line = maestro_lines[maestro_idx]
+        output_lines.append(_rewrite_serial_number(original_line, new_serial))
+        new_serial += 1
+
+    # Write to file, append END record
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_path, 'w') as f:
+        for line in output_lines:
+            f.write(line + "\n")
+        f.write("END\n")
 
 
 def create_atom_key(atom_info: Tuple) -> str:
@@ -126,11 +205,11 @@ def analyze_differences(maestro_atoms: List, pymol_atoms: List, mapping: List[in
 
 def main():
     # File paths
-    maestro_file = Path("/home/shpark/prj-mlcv/lib/DESRES/data/2F4K/2f4k_from_maestro.pdb")
-    pymol_file = Path("/home/shpark/prj-mlcv/lib/DESRES/data/2F4K/2f4k_from_pymol2.pdb")
+    maestro_file = Path(f"/home/shpark/prj-mlcv/lib/DESRES/data/{molecule}/{molecule}_from_mae.pdb")
+    pymol_file = Path(f"/home/shpark/prj-mlcv/lib/DESRES/data/{molecule}/{molecule}_from_pymol.pdb")
     
     print("Parsing PDB files...")
-    maestro_atoms = parse_pdb_atoms(maestro_file)
+    maestro_atoms, maestro_lines = parse_pdb_atoms_with_lines(maestro_file)
     pymol_atoms = parse_pdb_atoms(pymol_file)
     
     print("Creating mapping...")
@@ -142,18 +221,23 @@ def main():
     print("Mapping (Maestro -> PyMOL atom indices):")
     print("mapping =", mapping)
     print()
+
+    # Write reordered PDB following PyMOL atom ordering
+    out_file = Path(f"/home/shpark/prj-mlcv/lib/DESRES/data/{molecule}/{molecule}_from_mae_reordered.pdb")
+    print(f"Writing reordered PDB to: {out_file}")
+    write_reordered_pdb_from_mapping(maestro_lines, mapping, pymol_atoms, out_file)
     
     # Show first 20 mappings as example
-    print("First 20 atom mappings:")
-    print("Maestro Index -> PyMOL Index (Residue, Atom)")
-    for i in range(min(20, len(mapping))):
-        maestro_atom = maestro_atoms[i]
-        pymol_idx = mapping[i]
-        if pymol_idx != -1:
-            pymol_atom = pymol_atoms[pymol_idx - 1]
-            print(f"{i+1:3d} -> {pymol_idx:3d}  ({maestro_atom[2]} {maestro_atom[1]} -> {pymol_atom[2]} {pymol_atom[1]})")
-        else:
-            print(f"{i+1:3d} -> ???  ({maestro_atom[2]} {maestro_atom[1]} -> NOT FOUND)")
+    # print("First 20 atom mappings:")
+    # print("Maestro Index -> PyMOL Index (Residue, Atom)")
+    # for i in range(min(20, len(mapping))):
+    #     maestro_atom = maestro_atoms[i]
+    #     pymol_idx = mapping[i]
+    #     if pymol_idx != -1:
+    #         pymol_atom = pymol_atoms[pymol_idx - 1]
+    #         print(f"{i+1:3d} -> {pymol_idx:3d}  ({maestro_atom[2]} {maestro_atom[1]} -> {pymol_atom[2]} {pymol_atom[1]})")
+    #     else:
+    #         print(f"{i+1:3d} -> ???  ({maestro_atom[2]} {maestro_atom[1]} -> NOT FOUND)")
     
     # Verify mapping correctness
     print("\nVerification - checking if coordinates match:")
