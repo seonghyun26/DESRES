@@ -1,0 +1,17 @@
+# Configuration for VDE (Variational Dynamics Encoder) baseline
+method: vde
+molecule: GTT
+dataset_size: 50k
+timelag: 10
+input_dim: 595
+
+# VDE specific parameters
+n_cvs: 1
+hidden_layers: [100, 100]
+activation: relu
+dropout: [0.3, 0.3, 0.3]
+
+# Training parameters
+max_epochs: 1000
+early_stopping_min_delta: 0.01
+early_stopping_patience: 50

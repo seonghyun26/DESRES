@@ -1,4 +1,4 @@
 cd ../
 
 CUDA_VISIBLE_DEVICES=$1 python main.py \
-    --config-name baseline_tica_2jof
+    --config-name baseline_tda_2jof

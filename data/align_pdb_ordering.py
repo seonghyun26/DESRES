@@ -7,8 +7,10 @@ import re
 from pathlib import Path
 from typing import List, Tuple, Dict
 
-molecule = "2F4K"
+molecule = "1FME"
+# molecule = "2F4K"
 # molecule = "GTT"
+# molecule = "NTL9"
 
 
 def parse_pdb_atoms(pdb_file: Path) -> List[Tuple[int, str, str, str, int, float, float, float]]:
@@ -223,9 +225,9 @@ def main():
     print()
 
     # Write reordered PDB following PyMOL atom ordering
-    out_file = Path(f"/home/shpark/prj-mlcv/lib/DESRES/data/{molecule}/{molecule}_from_mae_reordered.pdb")
-    print(f"Writing reordered PDB to: {out_file}")
-    write_reordered_pdb_from_mapping(maestro_lines, mapping, pymol_atoms, out_file)
+    # out_file = Path(f"/home/shpark/prj-mlcv/lib/DESRES/data/{molecule}/{molecule}_from_mae_reordered.pdb")
+    # print(f"Writing reordered PDB to: {out_file}")
+    # write_reordered_pdb_from_mapping(maestro_lines, mapping, pymol_atoms, out_file)
     
     # Show first 20 mappings as example
     # print("First 20 atom mappings:")

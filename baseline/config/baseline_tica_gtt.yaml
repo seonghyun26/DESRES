@@ -1,0 +1,19 @@
+# Configuration for TAE (Time-lagged Auto-encoder) baseline
+method: tica
+molecule: GTT
+dataset_size: 50k
+timelag: 10
+input_dim: 595
+
+# TAE specific parameters
+n_cvs: 1
+activation: tanh
+layers: [595, 100, 100, 1]
+
+# Training parameters
+max_epochs: 1000
+early_stopping_min_delta: 0.01
+early_stopping_patience: 50
+
+# Model save directory
+model_save_dir: /home/shpark/prj-mlcv/lib/bioemu/model

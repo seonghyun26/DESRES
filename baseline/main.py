@@ -25,6 +25,7 @@ from pathlib import Path
 from torch.optim import Adam
 from typing import Optional, Dict
 from omegaconf import DictConfig, OmegaConf
+from torch.utils.data import DataLoader, TensorDataset
 
 # MLColvar imports
 from mlcolvar.data import DictDataset, DictModule
@@ -319,7 +320,7 @@ def evaluate_model(cfg: DictConfig, model, input_dim: int):
     print(f"CV shape: {cv.shape}")
     
     # Post-process for TAE and VDE
-    if method in ['tda', 'tae', 'vde']:
+    if method in ['tda', 'tae', 'vde', 'tica']:
         stats = Statistics(torch.from_numpy(cv).cpu()).to_dict()
         model.postprocessing = PostProcess(stats, feature_dim=cv.shape[1]).to(model.device)
         postprocessed_cv = model(projection_data)
@@ -331,17 +332,26 @@ def evaluate_model(cfg: DictConfig, model, input_dim: int):
         postprocessed_cv_numpy = cv
     
     # Load and compare with TICA
-    switch = cfg.get('switch', True)
-    projection_data_np = projection_data.numpy()
-    if switch:
-        tica_file = f'../data/{molecule}/{molecule}_tica_model_switch_lag{timelag}.pkl'
-        projection_data_np = (1 - np.power(projection_data_np / 0.8, 6)) / (1 - np.power(projection_data_np / 0.8, 12))
+    if molecule == 'cln025':
+        switch = cfg.get('switch', True)
     else:
-        tica_file = f'../data/{molecule}/{molecule}_tica_model_lag{timelag}.pkl'
+        switch = False
         
-    with open(tica_file, 'rb') as f:
-        tica = pickle.load(f)
-    tica_coord = tica.transform(projection_data_np)
+    projection_data_np = projection_data.numpy()
+    data_path = f"/home/shpark/prj-mlcv/lib/DESRES/data/{molecule}"
+    if os.path.exists(f'{data_path}/{molecule}_tica_coord_lag{timelag}.npy'):
+        tica_coord = np.load(f'{data_path}/{molecule}_tica_coord_lag{timelag}.npy')
+    else:
+        if switch:
+            tica_file = f'{data_path}/{molecule}_tica_model_switch_lag{timelag}.pkl'
+            projection_data_np = (1 - np.power(projection_data_np / 0.8, 6)) / (1 - np.power(projection_data_np / 0.8, 12))
+        else:
+            tica_file = f'{data_path}/{molecule}_tica_model_lag{timelag}.pkl'
+            
+        with open(tica_file, 'rb') as f:
+            tica = pickle.load(f)
+        tica_coord = tica.transform(projection_data_np)
+        np.save(f'{data_path}/{molecule}_tica_coord_lag{timelag}.npy', tica_coord)
     
     # Create visualization
     fig = plt.figure(figsize=(7, 6))
@@ -384,14 +394,14 @@ def evaluate_model(cfg: DictConfig, model, input_dim: int):
         "cv_std": float(cv.std()),
     })
     
-    return cv, postprocessed_cv_numpy if method in ['tae', 'vde'] else cv
+    return cv, postprocessed_cv_numpy 
 
 
 def save_model(cfg: DictConfig, model, datamodule, input_dim: int):
     # Save state dict
     molecule = cfg.molecule
     method = cfg.method
-    save_dir = Path(f"/home/shpark/prj-mlcv/lib/bioemu/model/_baseline_")
+    save_dir = Path(f"/home/shpark/prj-mlcv/lib/bioemu/opes/model/_baseline_")
     save_dir.mkdir(parents=True, exist_ok=True)
     state_dict_path = save_dir / f"{method}-{molecule}.pt"
     torch.save(model.state_dict(), state_dict_path)
@@ -404,6 +414,57 @@ def save_model(cfg: DictConfig, model, datamodule, input_dim: int):
     traced_script_module.save(str(jit_path))
     
     print(f"Models saved to {save_dir}")
+
+
+def save_cvs(
+    cfg: DictConfig,
+    model,
+    batch_size_eval: int = 10000,
+):
+    molecule = cfg.molecule
+    device = model.device
+    method = cfg.method
+    mlcv_save_path = f"/home/shpark/prj-mlcv/lib/bioemu/opes/dataset/{molecule.upper()}-all/{method}_mlcv.npy"
+    if os.path.exists(mlcv_save_path):
+        print(f"> CV values already computed at {mlcv_save_path}")
+        exit()
+    
+    projection_data_path = f"/home/shpark/prj-mlcv/lib/DESRES/DESRES-Trajectory_{molecule}-0-protein/{molecule}-0-cad.pt"
+    projection_data = torch.load(projection_data_path).to(device)
+    eval_loader = DataLoader(
+        TensorDataset(projection_data),
+        batch_size=batch_size_eval,
+        shuffle=False
+    )
+    
+    with torch.no_grad():
+        sample_batch = next(iter(eval_loader))[0]
+        sample_output = model(sample_batch)
+        output_dim = sample_output.shape[1]
+    cv_batches = torch.zeros((len(projection_data), output_dim)).to(projection_data.device)
+    print(f"CV shape: {cv_batches.shape}")
+    
+    with torch.no_grad():
+        for batch_idx, (batch_data,) in enumerate(tqdm(
+            eval_loader,
+            desc="Computing CV values",
+            total=len(eval_loader),
+            leave=False,
+        )):
+            batch_cv = model(batch_data)
+            start_idx = batch_idx * batch_size_eval
+            end_idx = start_idx + batch_cv.shape[0]  # Handle last batch size correctly
+            cv_batches[start_idx:end_idx] = batch_cv
+    
+    cv = cv_batches.detach().cpu().numpy()
+    print(f"\nMethod: {method}, Molecule: {molecule}")
+    print(f"CV shape: {cv.shape}")
+    print(f"CV range: [{cv.min():.6f}, {cv.max():.6f}]")
+    print(f"CV mean: {cv.mean():.6f}, std: {cv.std():.6f}")
+    
+    np.save(mlcv_save_path, cv)
+    print(f"Saved CV values to {mlcv_save_path}")
+    return
 
 
 @hydra.main(
@@ -447,6 +508,7 @@ def main(cfg: DictConfig) -> None:
         # Save model
         print("Saving model...")
         save_model(cfg, model, datamodule, input_dim)
+        save_cvs(cfg, model)
         
         print("Training completed successfully!")
         
@@ -454,8 +516,8 @@ def main(cfg: DictConfig) -> None:
         print(f"Error during training: {e}")
         wandb.log({"error": str(e)})
         raise
-    finally:
-        wandb.finish()
+
+    wandb.finish()
 
 
 if __name__ == "__main__":

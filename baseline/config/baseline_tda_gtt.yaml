@@ -1,0 +1,21 @@
+# Configuration for TDA (Time-lagged Discriminant Analysis) baseline
+method: tda
+molecule: GTT
+dataset_size: 50k
+timelag: 10
+input_dim: 595
+
+# TDA specific parameters
+n_states: 2
+n_cvs: 1
+target_centers: [-7, 7]
+target_sigmas: [0.2, 0.2]
+layers: [595, 100, 100, 1]
+
+# Training parameters
+max_epochs: 1000
+early_stopping_min_delta: 0.01
+early_stopping_patience: 50
+
+# Plot
+switch: False

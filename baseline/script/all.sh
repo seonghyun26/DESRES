@@ -1,18 +1,20 @@
 cd ../
 
-molecule=${1:-"1fme"}
-CUDA_VISIBLE_DEVICES=$1 python main.py \
-    --config-name baseline_tica_1fme
+# molecule=${2:-"1fme"}
 
-# CUDA_VISIBLE_DEVICES=$1 python main.py \
-#     --config-name baseline_tda_1fme
+for molecule in "ntl9"; do
+    CUDA_VISIBLE_DEVICES=$1 python main.py \
+        --config-name baseline_tica_${molecule}
 
-CUDA_VISIBLE_DEVICES=$1 python main.py \
-    --config-name baseline_tae_1fme
+    CUDA_VISIBLE_DEVICES=$1 python main.py \
+        --config-name baseline_tda_${molecule}
 
-CUDA_VISIBLE_DEVICES=$1 python main.py \
-    --config-name baseline_vde_1fme
+    CUDA_VISIBLE_DEVICES=$1 python main.py \
+        --config-name baseline_tae_${molecule}
 
+    CUDA_VISIBLE_DEVICES=$1 python main.py \
+        --config-name baseline_vde_${molecule}
+done
 
 
 # CLN025
